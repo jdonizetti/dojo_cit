@@ -7,6 +7,9 @@ declare let guid
 
 
 import { Observable } from 'rxjs/Observable'
+import { Musica } from './models/musica.model';
+import { PlaylistMusicasModel } from './models/playlistMusicasModel.model';
+import { Playlist } from './models/playlist.model';
 
 @Injectable()
 export class MusicaService {
@@ -30,12 +33,23 @@ export class MusicaService {
         return this.http.get(apiUrl).toPromise();
     }
 
-    public putPlayList(musicas: Array<any>) {
-        let idUsuario = Guid.create();
-        let apiUrl = this.urlService + "playlists/" + idUsuario + "/musicas";
+    public putPlayList(playlist: Playlist) {
+        
+        let apiUrl = this.urlService + "playlists/" + playlist.id + "/musicas";
 
-        return this.http.put(apiUrl, []);
+        return this.http.put(apiUrl, playlist.getMusicas());
     }
 
+    public converterPlaylistParaModel(musicas:Array<Musica>, idPlaylist:string) {
+        let retorno = new Array<PlaylistMusicasModel>();
+        musicas.forEach(musica => {
+            let play = new PlaylistMusicasModel();
+            play.musica = musica;
+            play.musicaId = musica.id;
+            play.playlistId = idPlaylist;
+            retorno.push(play);
+        });
+        return retorno;
+    }
 
 }

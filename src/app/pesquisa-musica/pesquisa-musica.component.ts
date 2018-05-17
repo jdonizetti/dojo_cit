@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MusicaService }  from '../musicas.service'
 @Component({
   selector: 'app-pesquisa-musica',
@@ -7,6 +7,8 @@ import { MusicaService }  from '../musicas.service'
 })
 export class PesquisaMusicaComponent implements OnInit {
 
+  @Output() pesquisarMusica = new EventEmitter();
+
   constructor(private musicaService: MusicaService) { }
 
   ngOnInit() {
@@ -14,14 +16,13 @@ export class PesquisaMusicaComponent implements OnInit {
 
   public "nome-musica": string = null;
 
-  public pesquisar(nomeMusica: string) {
-    if (nomeMusica.length > 3) {
-      console.log(nomeMusica);
+  public pesquisar(evento: any) {    
+    let nomeMusica = evento.target.value;
+    if (nomeMusica.length > 3 && evento.keyCode === 13) {      
       this.musicaService.getMusicas(nomeMusica)
         .then((result: any) => {
-        console.log(result.json());
+          this.pesquisarMusica.emit(result.json())        
       });
     }
   }
-
 }

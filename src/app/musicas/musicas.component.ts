@@ -13,6 +13,7 @@ export class MusicasComponent implements OnInit {
   musicasSelecionadas: Array<any> = new Array<any>()
   @Input() listaMusicas: Array<any> = new Array<any>();
   @Output() adicionado: EventEmitter<any> = new EventEmitter<any>()
+  @Output() outputPesquisarMusicas: EventEmitter<any> = new EventEmitter<any>()
 
   constructor() { }
 
@@ -23,5 +24,9 @@ export class MusicasComponent implements OnInit {
   public selecionarMusica(musica: any) {
 
     this.adicionado.emit(musica);
+  }
+
+  public pesquisarMusicas(result: any) {
+    this.outputPesquisarMusicas.emit(result);
   }
 }

@@ -1,9 +1,12 @@
 <div class="row">
   <div class="col-md-12">
     <form>
-      <p>Pesquisa</p>
-      <input name="nomeMusica" type="text" class="form-group" ngModel (input)="pesquisar($event.target.value)" />
-
+      <div class="col-lg-4" >
+        <label> Music or Artist</label>
+      </div>
+      <div class="col-md-8">
+          <input name="nomeMusica" type="text" class="form-group" ngModel (keydown)="pesquisar($event)" (keydown.enter)="$event.preventDefault()" />
+      </div>    
     </form>
   </div>
 

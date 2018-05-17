@@ -3,6 +3,7 @@ import { MusicaService } from '../musicas.service';
 
 
 import { Observable } from 'rxjs/Rx';
+import { Playlist } from '../models/playlist.model';
 
 
 @Component({
@@ -16,15 +17,14 @@ export class HomeComponent implements OnInit {
   musicasPlaylist: Array<any> = new Array<any>();
   musicasSelecionadas: Array<any> = new Array<any>();
   musicasSelecionadasRemocao: Array<any> = new Array<any>();
+  usuario: string
+  playlistUsuario: Playlist
 
   constructor(private musicaService: MusicaService) { }
 
 
   ngOnInit() {
-    this.musicaService.getMusicas('bruno')
-      .then((result: any) => {
-        this.musicas = result.json();
-      });
+
   }
 
   public atualizarPlaylist(musica: any) {
@@ -50,12 +50,12 @@ export class HomeComponent implements OnInit {
 
   criaPlaylist() {
 
-
-    this.musicasPlaylist = this.musicasSelecionadas;
-    this.musicaService.putPlayList([])
+    this.playlistUsuario.playlistaMusicas = this.musicaService.converterPlaylistParaModel(this.musicasSelecionadas, this.playlistUsuario.id);
+    this.musicaService.putPlayList(this.playlistUsuario)
       .toPromise().then((resposta: any) => {
+        console.log(resposta);
         if (resposta.status == "200") {
-            
+
         }
       })
   }
@@ -77,5 +77,16 @@ export class HomeComponent implements OnInit {
     } else {
       this.musicasSelecionadasRemocao.push(musica);
     }
+  }
+
+  public receberMusicas(result: any) {
+    this.musicas = result;
+  }
+
+  public selecionarUsuarioPlayList(result: Playlist) {
+    console.log(result);
+    this.musicasPlaylist = result.getMusicas();
+    this.playlistUsuario = result;    
+
   }
 }

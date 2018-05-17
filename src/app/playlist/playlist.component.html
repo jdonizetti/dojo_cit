@@ -1,23 +1,26 @@
 <p>
     Component Playlists
 </p>
-<app-pesquisa-playlist></app-pesquisa-playlist>
+<app-pesquisa-playlist (pesquisarPlaylist)="pesquisarPlaylist($event)"></app-pesquisa-playlist>
 <div class="row">
     <div class="col-md-12">
-      
-        <table>
-            <tr>
-                <th>Música</th>
-                <th>Artista</th>
-                <th>
-                    <input type="checkbox" name="musicaCheckbox" (change)="selecionarMusica()" />
-                </th>
-            </tr>
 
-            <tr *ngFor="let musica of musicasPlaylist">
+        <table datatable  style="width: 99%" class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" style="width: 50%">Music Name</th>
+                    <th scope="col" style="width: 40%">Artist Name</th>
+                    <th scope="col" style="width: 10%">
+                        <input type="checkbox" name="musicaCheckbox" (change)="selecionarMusica()" />
+                    </th>
+                </tr>
+            </thead>
 
-                <td>{{musica.nome}}</td>
-                <td>{{musica.artista.nome }}</td>
+
+            <tr *ngFor="let item of musicasPlaylist">
+
+                <td>{{item.musica.nome}}</td>
+                <td>{{item.musica.artista.nome}}</td>
                 <td>
                     <input type="checkbox" name="musicaCheckbox" (change)="selecionarMusica(musica)">
                 </td>
